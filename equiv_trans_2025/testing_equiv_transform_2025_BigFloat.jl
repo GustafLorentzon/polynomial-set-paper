@@ -63,7 +63,7 @@ display(HB)
 # Row 3 reduction
 ##################################################
 
-D = HB - HA
+#D = HB - HA
 
 # Now we want a soltion on alpha so that Z(alpha,beta) == 0
 # Choose beta so that, 2*beta - (b33 - a33) does not equal zero
@@ -76,15 +76,19 @@ D = HB - HA
 # Solving Z equation for alpha
 ##################################################
 # Positive r gives a33 = b33 + 1
-r = T(1/2)
+#r = T(1/2)
 
 # Following beta always has a solution in alpha
-beta = D[3,3]/2 + r
+#beta = D[3,3]/2 + r
 # Determine alpha
-alpha = ( HA[2,2] * beta^2 + beta*(D[3,2] - HA[2,2]*D[3,3]) ) / (2*beta - D[3,3])
+#alpha = ( HA[2,2] * beta^2 + beta*(D[3,2] - HA[2,2]*D[3,3]) ) / (2*beta - D[3,3])
 
 # Final transformation
-HA, HB, c = shift_row3(HA, HB, c, alpha, beta)
+#HA, HB, c = shift_row3(HA, HB, c, alpha, beta)
+#HA, HB, c = shift_row3(HA, HB, c, alpha, beta+0.001)
+#HA, HB, c = shift_row3(HA, HB, c, alpha, :auto)
+#HA, HB, c = shift_row3(HA, HB, c, :auto, beta)
+HA, HB, c = shift_row3(HA, HB, c, :auto, :auto)
 
 ##################################################
 # Graph Testing
