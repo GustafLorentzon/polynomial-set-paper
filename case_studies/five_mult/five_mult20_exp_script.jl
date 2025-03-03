@@ -19,7 +19,7 @@ degopt0=five_mult_deg20_degopt(target_dervec)
 # Reverse the scaling
 (Ha1,Hb1,c1)=get_degopt_coeffs(normalize!(scale_input(degopt0,1/a)))
 
-(Ha1,Hb1,c1)= transform_subdiag(Ha1,Hb1,c1) # Normalize all rows
+(Ha1,Hb1,c1)= normalize_superdiags(Ha1,Hb1,c1) # Normalize all rows
 
 (g1,_)=graph_degopt(Degopt(Ha1,Hb1,c1));
 
