@@ -62,21 +62,31 @@ function greedy_eliminate(degopt,expr)
     modified=true;
     while modified
         modified=false;
+
+        #iterate through expr in reverse order 
         for j=reverse(1:size(expr,1))
+            # Extracting Variables from the Current Expression
             thisvars=variables(expr[j])
+            # If the number of variables in the expression is equal to 1, we attempt to solve it
             if (size(thisvars,1)==1)
                 res=solve(System([expr[j]]));
-                real_sol=real_solutions(res);
+                real_sol=real_solutions(res);   # If a real solution exist, we extract the first real solution, otherwise we extract the first complex sol
                 if (size(real_sol,1)>0)
                     x=real_sol[1]
                 else
                     x=solutions(res)[1];
                 end
-
-                @show j,variables(thisvars)
+                
+                @show j,variables(thisvars)     # For debugging 
+                
+                # Now that we have solved one of the equations, we substitute this variable into each of the other expressions + the tables
                 (Ha,Hb,y)=subs((Ha,Hb,y),thisvars => x);
                 expr=subs(expr,thisvars => x);
+
+                # Since we successfully modified, there might be a new equation with only one variable, so we check again.
                 modified=true;
+
+                # We delete the redundant expression
                 deleteat!(expr,j);
             end
             if (modified)

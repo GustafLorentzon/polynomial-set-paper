@@ -12,16 +12,16 @@ a=8.0;
 target_dervec= a.^pw;
 degopt0=five_mult_deg20_degopt(target_dervec)
 
-(Ha,Hb,c)=get_degopt_coeffs(degopt0);
+(Ha, Hb, c)=get_degopt_coeffs(degopt0);
 
-(g0,_)=graph_degopt(degopt0)
+(g0, _)=graph_degopt(degopt0)
 
 # Reverse the scaling
-(Ha1,Hb1,c1)=get_degopt_coeffs(normalize!(scale_input(degopt0,1/a)))
+(Ha1, Hb1, c1)=get_degopt_coeffs(normalize!(scale_input(degopt0,1/a)))
 
-(Ha1,Hb1,c1)= normalize_superdiags(Ha1,Hb1,c1) # Normalize all rows
+(Ha1, Hb1, c1)= normalize_superdiags(Ha1,Hb1,c1) # Normalize all rows
 
-(g1,_)=graph_degopt(Degopt(Ha1,Hb1,c1));
+(g1, _)=graph_degopt(Degopt(Ha1,Hb1,c1));
 
 
 @show eval_graph(g1,0.2)-exp(0.2)
