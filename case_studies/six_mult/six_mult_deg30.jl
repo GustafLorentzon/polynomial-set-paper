@@ -7,7 +7,6 @@
 #  alpha=30
 
 using HomotopyContinuation, GraphMatFun, LinearAlgebra, Random
-#include("../common/homotopy_tools.jl")
 include("../common/degopt_tools.jl")
 include("../common/graph_syst.jl")
 include("../common/tikhonov.jl")
