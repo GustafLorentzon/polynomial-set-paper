@@ -53,3 +53,29 @@ function scale_output(degopt::Degopt,factor)
 
     return Degopt(Ha,Hb,c)
 end
+
+
+
+function normalized_degopt(m;reduction=[zeros(Int64,m),zeros(Int64,m)],special_val=3.0)
+
+    T=typeof(special_val);
+
+    Ha=zeros(T,m,m+1);
+    Hb=zeros(T,m,m+1);
+
+    reda=Int.(reduction[1]);
+    redb=Int.(reduction[2]);
+
+    for i=1:m
+        for j=2:(i-reda[i])
+            Ha[i,j]=special_val
+        end
+        Ha[i,i-reda[i]+1]=1;
+        for j=2:(i+1-redb[i])
+            Hb[i,j]=special_val
+        end
+        Hb[i,i-redb[i]+1]=1;
+    end
+    c=special_val*ones(T,m+2);
+    return (Ha,Hb,c)
+end
