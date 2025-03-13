@@ -1,178 +1,152 @@
-# Computes the degree 20 polynomial with five multiplications
+# Computes the degree d polynomial with m multiplications
 #
-# The output is for exp(8X) is Ha,Hb,c
-# and exp(X) is Ha1,Hb1,c1
+# The output is for exp(alpha*X) is Ha,Hb,c
+#
+#  d=30
+#  m=6
+#  alpha=30
 
-using HomotopyContinuation, GraphMatFun, LinearAlgebra
-include("../common/homotopy_tools.jl")
+using HomotopyContinuation, GraphMatFun, LinearAlgebra, Random
+#include("../common/homotopy_tools.jl")
 include("../common/degopt_tools.jl")
-# Input: Derivatives at zero:
-#
+include("../common/graph_syst.jl")
+include("../common/tikhonov.jl")
 
-@var x
-pw=0:30
-a=12 + x -x;
-target_dervec= a.^pw;
-#degopt0=five_mult_deg20_degopt(target_dervec)
+function init_starting_values!(g,a)
 
+    T=eltype(g)
+    Ha=[ 0.0    1.0    0.0    0.0   0.0   0.0  0.0
+         0.0   -9.0    1.0    0.0   0.0   0.0  0.0
+         0.0   30.0  100.0    1.0   0.0   0.0  0.0
+         0.0    3.0  -10.0   -0.8   1.0   0.0  0.0
+         0.0   20.0  -80.0   -0.5  -0.4   1.0  0.0
+         0.0  -30.0  -30.0  -40.0  60.0  -3.0  1.0
+         ];
+    Hb=[ 0.0   1.0     0.0    0.0   0.0  0.0  0.0
+         0.0  12.0     1.0    0.0   0.0  0.0  0.0
+         0.0  -2.5     1.0    0.0   0.0  0.0  0.0
+         0.0   6.0  -160.0   -2.3   1.0  0.0  0.0
+         0.0  -1.0  -100.0   -1.7   1.0  0.0  0.0
+         0.0  72.0  -870.0  -24.0  21.0  1.0  0.0];
 
-#function six_mult_deg32_degopt(target_dervec)
-
-    m=6;
-    (Ha,Hb,c,_)=build_normalized_degopt(m;reduction=[[0;0;0;0;0;0],[0;0;1;0;1;1]]);
-
-    # According to theory:
-    # Ha[2,2]=0;
-    #(Ha,Hb,c)=subs((Ha,Hb,c), Ha[3,3] => (Hb[3,3] +1))
-    #(Ha,Hb,c)=subs((Ha,Hb,c), Ha[3,3] => 2)
-    #
-    degopt=Degopt(Ha,Hb,c);
-    (graph,_)=graph_degopt(degopt);
-
-    pretty_print(Ha,Hb,c)
-
-
-
-    p=eval_graph(graph,x);
-    rhs=build_dervec(p,x);
-    lhs=target_dervec
-
-    @show size(rhs)
-    @show size(lhs)
-    expr=(rhs-lhs) ./ lhs;
-
-    expr=expand.(expr);
-
-
-    @show maximum(degree.(expr))
-    @show degree.(expr)
-
-
-    @show expr[end]
-
-    @show size(expr)
-    @show size(variables(expr))
-    (Ha,Hb,c,expr)=greedy_eliminate((Ha,Hb,c),expr);
-    @show size(expr)
-    @show size(variables(expr))
+    c=[1.0+1e-10
+       13.0+1e-10
+       240.0
+       -35000.0
+       50000.0
+       38.0
+       1300.0
+       convert(T,big(a)^30 / factorial(big(30)))];
 
 
 
-    @show degree.(expr)
-
-    # Investigate which expr to reduce
-    #@show expr[argmax(degree.(expr))]  # => index: 3
-    # First max degree term: B₃₋₂^2*B₅₋₅*A₃₋₂^2
-
-    #elimvar=variables(expr[8])[10]
-    #expr=expand.(subs(expr, elimvar => 0));
-    #(Ha,Hb,c)=subs((Ha,Hb,c), elimvar => 0)
-
-    expr=expand.(subs(expr, Ha[3,3] => Hb[3,3]+1));
-    (Ha,Hb,c)=subs((Ha,Hb,c), Ha[3,3] => Hb[3,3]+1)
-
-
-#elimvar=variables(expr[5])[10]
-    elimvar=Hb[6,6]
-    expr=expand.(subs(expr, elimvar => 1));
-    (Ha,Hb,c)=subs((Ha,Hb,c), elimvar => 1)
-
-
-    @show variables(expr[1])
-
-    @show size(expr)
-    @show size(variables(expr))
-    (Ha,Hb,c,expr)=greedy_eliminate((Ha,Hb,c),expr);
-    @show size(expr)
-    @show size(variables(expr))
-
-
-    @show variables(expr[1])
-
-
-
-    elimvar=variables(expr[7])[10]
-    expr=expand.(subs(expr, elimvar => 1));
-    (Ha,Hb,c)=subs((Ha,Hb,c), elimvar => 1)
-
-    elimvar=Hb[2,2]
-    expr=expand.(subs(expr, elimvar => -Ha[2,2]));
-    (Ha,Hb,c)=subs((Ha,Hb,c), elimvar => -Ha[2,2])
-
-    elimvar=variables(expr[4])[6]
-    expr=expand.(subs(expr, elimvar => 1));
-    (Ha,Hb,c)=subs((Ha,Hb,c), elimvar => 1)
-
-
-# First max degree term:  B₃₋₃^3*B₃₋₂*B₅₋₅
-    #expr=expand.(subs(expr, Hb[3,3] => 1));
-    #(Ha,Hb,c)=subs((Ha,Hb,c), Hb[3,3] => 1)
-    @show size(expr)
-    @show size(variables(expr))
-    @show degree.(expr)
-    (Ha,Hb,c,expr)=greedy_eliminate((Ha,Hb,c),expr);
-    @show size(expr)
-    @show size(variables(expr))
-    @show degree.(expr)
-
-
-
-    println("Analyzing system")
-    F=System(expr);
-
-
-for j=1:5
-    x=rand(size(variables(F),1));
-    Z=jacobian(F,x)
-
-    @show cond(big.(Z))
+    (g2,_)=graph_degopt(Degopt(Ha,Hb,c))
+    cref=get_all_cref(g)
+    set_coeffs!(g,get_coeffs(g2,cref),cref)
 end
 
+function setup_system(T,g0,a,poly_order)
+    g=Compgraph(T,g0);
+    pw=0:poly_order
+    dervec= a.^pw;
+    dervec=convert.(T,dervec);
+    sys=GraphDervecSystem(g,dervec,1 ./dervec,cref);
+    return sys
+end
+
+deg=30;
+a=big(13.0); # input scaling
+
+# Initialize
+(g0,_)=graph_degopt(Degopt(randn(m,m+1),randn(m,m+1),randn(m+2)));
+init_starting_values!(g0,a)
+
+# Determine free variables
+cref=get_all_cref(g0)
+II=findall((!).(get_coeffs(g0,cref) .== 0))
+cref=cref[II];
+II=findall((!).(get_coeffs(g0,cref) .== 1))
+cref=cref[II];
+
+
+# Create a  GraphDervecSystem
+T=Float64;
+sys=setup_system(T,g0,a,deg)
+
+x0=get_coeffs(sys.graph,cref);
 
 
 
-    println("Solving system")
-
-    res=solve(F, start_system=:polyhedral);
+@show norm(sys(x0))
 
 
-    v=real_solutions(res)
+lambda=0.02;
+x=x0;
+d=Inf;
+for j=1:20000
+    global x,d, tol, lambda, rad,gx,sys;
 
-    T=Float64
-    if (length(v) ==0)
-        v=solutions(res);
-        T=ComplexF64
+    Fv0=sys(x)
+    J=jac(sys,x);
+
+
+    # Tikhonov regularized Gauss-Newton
+    d=tikhonov_step(J, Fv0, lambda)
+
+    # Armijo damping
+    s=1;  count=0;
+    while norm(Fv0) < norm(sys(x-s*d))    && count<10
+        s=s/2;
+        count=count+1;
+    end
+    x1=x-s*d;
+
+
+    if (j>500) # Only do Tikhonov in the inital stages
+
+        # Gauss-Newton step
+        d=(J\Fv0);
+        # Armijo damping
+        s=1;  count=0;
+        while norm(Fv0) < norm(sys(x-s*d))    && count<20
+            s=s/2;
+            count=count+1;
+        end
+        x2=x-s*d;
+    else
+        x2=x1;
     end
 
-    @show norm.(v)
-    @show minimum(norm.(v))
 
-    i=argmin(norm.(v))
-    x=v[i];
+    # Determine if it is better to do GN or Tikhonov GN
+    ii=argmin([norm(sys(x1));norm(sys(x2))])
+    if (norm(sys(x1))<norm(sys(x2)))
+        x=x1;
+    else
+        x=x2;
+    end
 
-    @show norm(x)
+    condJ=Float64(cond(J))
+    normx=Float64(norm(x))
+    normF=Float64(norm(sys(x)))
+    @show (ii,j,normF,condJ, normx)
 
-    (Ha,Hb,c)=subs((Ha,Hb,c), variables(F) => x);
-
-
-    @show variables(expr)[end], x[end]
-
-    # Workaround and warning
-    # for https://github.com/JuliaHomotopyContinuation/HomotopyContinuation.jl/issues/615
-    Ha = to_number.(Ha);
-    Hb = to_number.(Hb);
-    c= to_number.(c);
-    if (!all((!).(typeof.(Ha) .== Expression)) ||
-        !all((!).(typeof.(Hb) .== Expression)) ||
-        !all((!).(typeof.(c) .== Expression))  )
-        @show typeof.(Ha)
-        @show typeof.(Hb)
-        @show typeof.(c)
-        @warn("Some entries seems to still be Expression.")
+    if (normF < 1e-8)
+        @show normF
+        println("DONE!!!")
+        break;
     end
 
 
+end
 
-    degopt0=Degopt(convert.(T,Ha),convert.(T,Hb),convert.(T,c));
-    return degopt0
-#end
+# Polish the solution
+
+T=BigFloat
+sys2=setup_system(T,sys.graph,a,deg)
+x=big.(x);
+@show norm(sys2(x))
+for j=1:10
+    x[:]=x-jac(sys2,x)\sys2(x);
+    @show norm(sys2(x))
+end
