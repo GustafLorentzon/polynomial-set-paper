@@ -4,7 +4,7 @@
 #
 #  d=30
 #  m=6
-#  alpha=30
+#  alpha=13
 
 using HomotopyContinuation, GraphMatFun, LinearAlgebra, Random
 include("../common/degopt_tools.jl")
@@ -139,6 +139,7 @@ for j=1:20000
 
 end
 
+println("Polishing the solution");
 # Polish the solution
 
 T=BigFloat
@@ -149,3 +150,10 @@ for j=1:10
     x[:]=x-jac(sys2,x)\sys2(x);
     @show norm(sys2(x))
 end
+
+export_compgraph(deepcopy(sys2.graph),"data/exp13_deg30.cgr");
+g_compressed=Compgraph(Float64,deepcopy(sys2.graph));
+compress_graph!(g_compressed);
+gen_code("data/exp13_deg30.m",g_compressed, lang=LangMatlab());
+
+gen_code("data/exp13_deg30.jl",g_compressed, lang=LangJulia(),funname="exp13_deg30")
