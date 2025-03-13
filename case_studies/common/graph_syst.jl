@@ -32,7 +32,7 @@ function jac(sys::GraphDervecSystem,c)
     T=eltype(sys.graph);
     # Compute mixed derivatives with help of eval_jac and Polynomial
     x=Polynomial{T}(:x)
-    JJ_poly=eval_jac(g,[x],cref)[1,:] # Get the polynomial Jacobian
+    JJ_poly=eval_jac(sys.graph,[x],cref)[1,:] # Get the polynomial Jacobian
     s=size(sys.rhs,1);
     JJ=zeros(T,s,size(crefs,1));
     for j=1:size(crefs,1)
@@ -42,6 +42,33 @@ function jac(sys::GraphDervecSystem,c)
     end
     return JJ
 end
+
+
+function jac_num(sys::GraphDervecSystem,c;delta=sqrt(eps()))
+    n=size(sys.rhs,1);
+    m=size(c,1);
+    J=zeros(eltype(c),n,m);
+
+
+    for k=1:m
+        ek=zeros(m);
+        ek[k]=1;
+        J[:,k]=(sys(x+delta*ek)-sys(x-delta*ek))/(2*delta)
+
+    end
+    return J;
+end
+
+# theta=0 => sys1
+function interpolate_graph_sys(sys1,sys2,theta)
+
+    return GraphDervecSystem(sys1.graph,
+                             sys2.rhs*theta+sys1.rhs*(1-theta),
+                             sys1.scaling,
+                             sys1.crefs)
+end
+
+
 
 
 #
