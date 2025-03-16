@@ -28,12 +28,12 @@ end
     mul!(memslots2,memslots1,memslots1)
     # Computing Ba3 with operation: lincomb
     # Computing Ba3 = x*A+x*B2
-    coeff1=1.0 + 0.0im
-    coeff2=0.3552243434787143 + 0.31301865003529306im
+    coeff1=1.5844400794380722 - 1.3959605079718456im
+    coeff2=1.0 + 0.0im
     memslots3 .= coeff1.*memslots1 .+ coeff2.*memslots2
     # Computing Bb3 with operation: lincomb
     # Computing Bb3 = x*A+x*B2
-    coeff1=0.8360830164249938 + 1.51375982815941im
+    coeff1=0.8362985632994195 + 1.5133442880778576im
     coeff2=1.0 + 0.0im
     memslots4 .= coeff1.*memslots1 .+ coeff2.*memslots2
     # Computing B3 with operation: mult
@@ -42,7 +42,7 @@ end
     # Deallocating Bb3 in slot 4
     # Computing Ba4 with operation: lincomb
     # Computing Ba4 = x*A+x*B3
-    coeff1=1.9878700319712954 + 2.3140766205659444im
+    coeff1=6.375652247856689 + 0.8854685182993819im
     coeff2=1.0 + 0.0im
     memslots3 .= coeff1.*memslots1 .+ coeff2.*memslots5
     # Computing Bb4 with operation: lincomb
@@ -56,15 +56,15 @@ end
     # Deallocating Bb4 in slot 4
     # Computing Ba5 with operation: lincomb
     # Computing Ba5 = x*A+x*B2+x*B3+x*B4
-    coeff1=-6.343965400071081 + 2.322828637545328im
-    coeff2=1.0 + 0.0im
-    coeff3=4.7235917363318425 + 0.3893233288877068im
+    coeff1=-6.808601692935942 + 12.544857079714737im
+    coeff2=1.569740480375011 - 1.4144292127681592im
+    coeff3=4.724523222553011 + 0.38997858506695776im
     coeff4=1.0 + 0.0im
     memslots3 .= coeff1.*memslots1 .+ coeff2.*memslots2 .+ coeff3.*memslots5 .+ coeff4.*memslots6
     # Computing Bb5 with operation: lincomb
     # Computing Bb5 = x*A+x*B2+x*B3
-    coeff1=2.1949415868635036 + 2.0339267529547174im
-    coeff2=1.6408178687320785 + 0.01243887307297313im
+    coeff1=6.3189377982077914 + 0.1597771243574064im
+    coeff2=2.6186647244428443 - 2.2702663901368747im
     coeff3=1.0 + 0.0im
     memslots4 .= coeff1.*memslots1 .+ coeff2.*memslots2 .+ coeff3.*memslots5
     # Computing B5 with operation: mult
@@ -73,24 +73,24 @@ end
     # Deallocating Bb5 in slot 4
     # Computing Ba6 with operation: lincomb
     # Computing Ba6 = x*A+x*B3+x*B4+x*B5
-    coeff1=-14.240898251796072 + 3.670042231513456im
-    coeff2=22.946602606317207 + 2.501748494503562im
-    coeff3=1.9035275263080027 + 0.9773304760815128im
+    coeff1=8.249004837244222 + 65.08368685504342im
+    coeff2=39.85357502273375 - 28.077354006661096im
+    coeff3=4.3822084556779854 - 1.1052993512751348im
     coeff4=1.0 + 0.0im
     memslots3 .= coeff1.*memslots1 .+ coeff2.*memslots5 .+ coeff3.*memslots6 .+ coeff4.*memslots7
     # Computing Bb7 with operation: lincomb
     # Computing Bb7 = x*A+x*B2+x*B3+x*B4+x*B5
-    coeff1=-1.0916975778241045 + 2.513481630026917im
-    coeff2=3.4655419645706314 - 12.374255408172536im
-    coeff3=25.859631711089065 - 1.9611449316761307im
-    coeff4=1.4328957125708943 + 0.3517948071250101im
+    coeff1=10.510805190812118 + 6.242097832373527im
+    coeff2=-52.78387748400507 - 22.248348093966708im
+    coeff3=38.23646224322802 - 39.21905642772004im
+    coeff4=2.762936078783901 - 1.4393789763917824im
     coeff5=1.0 + 0.0im
     memslots4 .= coeff1.*memslots1 .+ coeff2.*memslots2 .+ coeff3.*memslots5 .+ coeff4.*memslots6 .+ coeff5.*memslots7
     # Computing Bb6 with operation: lincomb
     # Computing Bb6 = x*A+x*B2+x*B3+x*B4
-    coeff1=1.842230367505875 + 3.2280755835474673im
-    coeff2=7.355447021031304 + 5.342469876166199im
-    coeff3=2.535462535574459 + 0.6067500151302706im
+    coeff1=7.426908143003605 + 2.5429417754486807im
+    coeff2=19.097383764544848 - 1.8267678978456707im
+    coeff3=2.5365103349743428 + 0.6076881686091713im
     coeff4=1.0 + 0.0im
     memslots8 .= coeff1.*memslots1 .+ coeff2.*memslots2 .+ coeff3.*memslots5 .+ coeff4.*memslots6
     # Computing B6 with operation: mult
@@ -99,11 +99,11 @@ end
     # Deallocating Bb6 in slot 8
     # Computing Ba7 with operation: lincomb
     # Computing Ba7 = x*A+x*B2+x*B3+x*B4+x*B5+x*B6
-    coeff1=-56.440070975556615 + 0.8038703427701969im
-    coeff2=-197.1421793323268 - 74.31908859859942im
-    coeff3=-144.83452884676714 - 156.19616597452864im
-    coeff4=-23.871745569154317 - 16.82457097482417im
-    coeff5=-6.922978371736924 - 6.045993005201862im
+    coeff1=304.85341078550323 + 435.7943373663025im
+    coeff2=465.39549800179304 + 1928.7742248563882im
+    coeff3=-772.5735928721261 + 553.373346132297im
+    coeff4=-87.8771857159332 + 96.12479896319797im
+    coeff5=-19.413016446774918 + 0.08626434714601752im
     coeff6=1.0 + 0.0im
     memslots3 .= coeff1.*memslots1 .+ coeff2.*memslots2 .+ coeff3.*memslots5 .+ coeff4.*memslots6 .+ coeff5.*memslots7 .+ coeff6.*memslots9
     # Computing B7 with operation: mult
@@ -112,21 +112,21 @@ end
     # Deallocating Bb7 in slot 4
     # Computing Ba8 with operation: lincomb
     # Computing Ba8 = x*A+x*B2+x*B3+x*B4+x*B5+x*B6+x*B7
-    coeff1=-4.536202610923116 + 13.557328060523977im
-    coeff2=-1979.3896551330106 + 1462.6053392454762im
-    coeff3=564.0422556918274 - 434.50769564034044im
-    coeff4=8.144305475508778 + 250.9970217238186im
-    coeff5=28.701901758801203 + 6.764740732410251im
-    coeff6=6.940779666409219 - 11.712228051306315im
+    coeff1=-88.09458998969606 - 594.4012503240502im
+    coeff2=46185.73848288826 - 92443.74038237116im
+    coeff3=-13022.104899843343 + 5569.324256735599im
+    coeff4=1090.9032066106483 - 4877.961600583514im
+    coeff5=-99.09941154910298 - 259.5681289585798im
+    coeff6=-47.937421360569786 - 37.2904613151398im
     coeff7=1.0 + 0.0im
     memslots3 .= coeff1.*memslots1 .+ coeff2.*memslots2 .+ coeff3.*memslots5 .+ coeff4.*memslots6 .+ coeff5.*memslots7 .+ coeff6.*memslots9 .+ coeff7.*memslots8
     # Computing Bb8 with operation: lincomb
     # Computing Bb8 = x*A+x*B2+x*B3+x*B4+x*B5+x*B6
-    coeff1=-22.304569550343828 + 14.982632784676683im
-    coeff2=-151.42095847042825 - 49.07623727449899im
-    coeff3=58.114992519629375 + 27.790767654075474im
-    coeff4=-13.172306847687533 + 9.572804867625475im
-    coeff5=1.0958333873628239 + 1.646026205769386im
+    coeff1=234.8135383752222 + 94.63946355367607im
+    coeff2=419.7945638907328 + 1438.293227983436im
+    coeff3=155.55535494032847 - 241.5123648028718im
+    coeff4=34.97166608032268 + 63.68491910279126im
+    coeff5=4.034990110990166 + 1.0781891932596022im
     coeff6=1.0 + 0.0im
     memslots4 .= coeff1.*memslots1 .+ coeff2.*memslots2 .+ coeff3.*memslots5 .+ coeff4.*memslots6 .+ coeff5.*memslots7 .+ coeff6.*memslots9
     # Computing B8 with operation: mult
@@ -135,15 +135,15 @@ end
     # Deallocating Bb8 in slot 4
     # Computing y with operation: lincomb
     # Computing y = x*I+x*A+x*B2+x*B3+x*B4+x*B5+x*B6+x*B7+x*B8
-    coeff1=1.0 - 1.3937897627641574e-146im
-    coeff2=16.0 + 2.9854139966181868e-145im
-    coeff3=2.2538293597212923e6 - 1.6990034794703126e6im
-    coeff4=463255.667959996 - 204462.24043615483im
-    coeff5=129768.81807976031 - 283412.16330084566im
-    coeff6=16558.498460634066 - 37303.882941481046im
-    coeff7=-8107.967740845825 + 13211.941108730856im
-    coeff8=-895.5940131936953 - 171.6495357115899im
-    coeff9=92.31655506179625 + 50.985953848847636im
+    coeff1=1.0 + 2.4829354080981247e-146im
+    coeff2=16.0 - 5.149370397595671e-145im
+    coeff3=2.249960953975171e6 - 1.700002399650597e6im
+    coeff4=228695.45187978813 + 72397.45882504294im
+    coeff5=134809.0105693524 - 60016.94543945243im
+    coeff6=8762.785342197853 + 2630.2339792540383im
+    coeff7=-677.1635203234329 - 1499.3980874377685im
+    coeff8=17.147247082874106 + 13.291164285010847im
+    coeff9=0.26629380073811015 - 9.297753385893747e-150im
     # Smart lincomb recycle A
     memslots1 .= coeff2.*memslots1 .+ coeff3.*memslots2 .+ coeff4.*memslots5 .+ coeff5.*memslots6 .+ coeff6.*memslots7 .+ coeff7.*memslots9 .+ coeff8.*memslots8 .+ coeff9.*memslots10
     mul!(memslots1, true, I*coeff1, true, true)
