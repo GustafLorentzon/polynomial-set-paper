@@ -12,10 +12,12 @@ include("../common/degopt_tools.jl")
 
 function five_mult_deg20_degopt(target_dervec)
 
+
+    # Build the evaluation scheme with the given reduction
+    println("Building the system with the structure according to theory");
     m=5;
     (Ha,Hb,c,_)=build_normalized_degopt(m;reduction=[[zeros(m-2);1;1],zeros(m)])
-
-    # According to theory:
+    # This structure can always be imposed
     Ha[2,2]=0;
     (Ha,Hb,c)=subs((Ha,Hb,c), Ha[3,3] => (Hb[3,3] +1))
     #(Ha,Hb,c)=subs((Ha,Hb,c), Ha[3,3] => 2)
@@ -27,6 +29,8 @@ function five_mult_deg20_degopt(target_dervec)
 
 
 
+    # compute RHS vector
+    println("Setting up system")
     @var x;
     p=eval_graph(graph,x);
     rhs=build_dervec(p,x);
@@ -42,10 +46,8 @@ function five_mult_deg20_degopt(target_dervec)
 
 
     @show expr[end]
-
-    @show size(expr)
+    println("Using greedy elimination and imposing structure to reduce the degree")
     (Ha,Hb,c,expr)=greedy_eliminate((Ha,Hb,c),expr);
-    @show size(expr)
 
     @show degree.(expr)
 
@@ -71,10 +73,10 @@ function five_mult_deg20_degopt(target_dervec)
     @show degree.(expr)
     @show size(expr)
 
+    println("Solving system");
     F=System(expr);
 
     res=solve(F);
-
 
     v=real_solutions(res)
 
@@ -108,11 +110,11 @@ function five_mult_deg20_degopt(target_dervec)
         @show typeof.(Ha)
         @show typeof.(Hb)
         @show typeof.(c)
-        @warn("Some entries seems to still be Expression.")
+        @warn("Some entries seems to still be Expression type.")
     end
 
 
-
+    #
     degopt0=Degopt(convert.(T,Ha),convert.(T,Hb),convert.(T,c));
     return degopt0
 end
