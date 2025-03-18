@@ -1,15 +1,12 @@
-# Computes the degree 20 polynomial with five multiplications
+#  Computes the degree 20 polynomial with five multiplications using HomotopyContinuation.jl
 #
-# The output is for exp(8X) is Ha,Hb,c
-# and exp(X) is Ha1,Hb1,c1
 
 using HomotopyContinuation, GraphMatFun, LinearAlgebra
 include("../common/homotopy_tools.jl")
 include("../common/degopt_tools.jl")
 
-# Input: Derivatives at zero:
-#
-
+# Input: Derivatives at zero
+# Output: A GraphMatFun.Degopt object representing the evaluation
 function five_mult_deg20_degopt(target_dervec)
 
 
