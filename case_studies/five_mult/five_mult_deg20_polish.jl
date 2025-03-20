@@ -1,13 +1,13 @@
 # This will read some graphs (in Float64 / ComplexF64) and then try
 # make them accurate in BigFloat. Saved in corresponding _bigfloat
 #
-# Note that you should not load HomotopyContinuation since
-# it will have a conflicting Polynomial object
+# Note that this is uses the package Polynomials which is not compatible with HomotopyContinuation,
+# so you cannot load HomotopyContinuation
 include("../common/graph_syst.jl")
 include("../common/pretty_print.jl")
 
 println("Polishing exp8")
-g0=import_compgraph("exp8_five_mult_deg20.cgr")
+g0=import_compgraph("data/exp8_deg20.cgr");
 
 g=Compgraph(BigFloat,g0);
 pw=0:20
@@ -52,15 +52,23 @@ g=sys.graph;
 
 
 degopt_float64=Degopt(Compgraph(Float64,g));
-latex_print_vals(degopt_float64)
+# latex_print_vals(degopt_float64) # for manuscript
 
-export_compgraph(g,"exp8_five_mult_deg20_bigfloat.cgr")
+condition_number=cond(jac(sys,x))
+println("Converged with a final Jacobian condition number $condition_number")
+println("Saving BigFloat version and generated code")
+export_compgraph(g,"data/exp8_deg20.cgr");
+
+g_compressed=Compgraph(Float64,deepcopy(g));
+compress_graph!(g_compressed);
+gen_code("data/exp8_deg20.m",g_compressed, lang=LangMatlab());
+gen_code("data/exp8_deg20.jl",g_compressed, lang=LangJulia(),funname="exp8_deg20")
 
 
 
 
 println("Polishing onediv")
-g0=import_compgraph("onediv_five_mult_deg20.cgr")
+g0=import_compgraph("data/onediv_deg20.cgr")
 
 g=Compgraph(BigFloat,g0);
 pw=0:20
@@ -103,6 +111,14 @@ g=sys.graph;
 
 
 degopt_float64=Degopt(Compgraph(Float64,g));
-latex_print_vals(degopt_float64)
+#latex_print_vals(degopt_float64)  # for manuscript
+condition_number=cond(jac(sys,x))
+println("Converged with a final Jacobian condition number $condition_number")
+println("Saving BigFloat version and generated code")
 
-export_compgraph(g,"onediv_five_mult_deg20_bigfloat.cgr");
+export_compgraph(g,"data/onediv_deg20.cgr");
+
+g_compressed=Compgraph(Float64,deepcopy(g));
+compress_graph!(g_compressed);
+gen_code("data/onediv_deg20.m",g_compressed, lang=LangMatlab());
+gen_code("data/onediv_deg20.jl",g_compressed, lang=LangJulia(),funname="onediv_deg20")
