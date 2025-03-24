@@ -1,7 +1,9 @@
 using LinearAlgebra
 
-# Rowscaling
 
+#########################################################
+# Row scaling
+#########################################################
 function rowscaling(HA, HB, C, k, alpha)
 
     m,_ = size(HA)
@@ -22,6 +24,10 @@ function rowscaling(HA, HB, C, k, alpha)
 
     return HA2, HB2, C2;
 end
+
+#########################################################
+# Shift first column
+#########################################################
 
 function col1shift(HA, HB, C, k::Int64, alpha)
     m,_ = size(HA)
@@ -45,6 +51,10 @@ function col1shift(HA, HB, C, k::Int64, alpha)
     return HA2, HB2, C2;
 end
 
+#########################################################
+# Shift element a_22 and b_22
+#########################################################
+
 function shift_ab22(HA, HB, C, alpha)
     HA2, HB2, C2 = copy(HA), copy(HB), copy(C);
 
@@ -64,11 +74,54 @@ function shift_ab22(HA, HB, C, alpha)
     return HA2, HB2, C2;
 end
 
-
-
 ###########################################################
 # DISCLAIMER: for shift_row3 to work, alpha and beta must satisfy Z equation
 ###########################################################
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 function shift_row3(HA, HB, C, alpha, beta)
     T = eltype(HA)
     m,_ = size(HA)
@@ -105,6 +158,52 @@ function shift_row3(HA, HB, C, alpha, beta)
     return HA2, HB2, C2;
 
 end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 function Zcheck(HA, HB, alpha, beta)
     T = eltype(HA)

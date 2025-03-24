@@ -3,7 +3,7 @@
 # The output is for exp(alpha*X) is Ha,Hb,c
 #
 #  d=32
-#  m=6
+m=6
 #  alpha=13
 #  complex
 
