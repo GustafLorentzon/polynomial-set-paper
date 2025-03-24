@@ -169,13 +169,15 @@ function shift_row3(HA, HB, C, alpha::Number, beta::Number)
     Y = structure_check(HA,HB)
     if abs(Z) > 1e2*eps(real(T))
         println("Invalid transformation, alpha and beta do not satisfy conditions: ")
-        @printf "%.3e" Z
+        #@printf "%.3e" Z
+        println(Z)
         println("returning original scheme")
         return HA, HB, C
     end
     if abs(Y) > 1e2*eps(real(T))
         print("Invalid transformation, HA and HB do not satisfy the structure conditions: ")
-        @printf "%.3e" Y
+        #@printf "%.3e" Y
+        println(Y)
         println("returning original scheme")
         return HA, HB, C
     end
@@ -223,4 +225,29 @@ function structure_check(HA,HB)
 
     Y = maximum([col1check, normcheck, b22check])
     return Y
+end
+
+
+function normalize_col1(Ha,Hb,c)
+    m=size(Ha,1);
+    for i=1:m
+        (Ha,Hb,c)=col1shift(Ha, Hb, c, i, -Ha[i,1])
+        (Hb,Ha,c)=col1shift(Hb, Ha, c, i, -Hb[i,1])
+    end
+    return (Ha,Hb,c);
+end
+
+function normalize_superdiags(Ha,Hb,c)
+    m=size(Ha,1);
+    for i=1:m
+        j=findlast(Ha[i,:] .!= 0);
+        (Ha,Hb,c)=rowscaling(Ha, Hb, c, i, 1/Ha[i,j])
+        j=findlast(Hb[i,:] .!= 0);
+        (Hb,Ha,c)=rowscaling(Hb, Ha, c, i, 1/Hb[i,j])
+    end
+    return (Ha,Hb,c);
+end
+
+function normalize_ab22(Ha,Hb,c)
+    shift_ab22(Ha, Hb, c, -Ha[2,2])
 end

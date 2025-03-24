@@ -147,7 +147,6 @@ function shift_row3(HA, HB, C, alpha, beta)
     if m >= 4
         HA2[4:end,3] = HA[4:end,3] - s1 * HA[4:end,5]
         HA2[4:end,4] = HA[4:end,4] - s2 * HA[4:end,5]
-
         HB2[4:end,3] = HB[4:end,3] - s1 * HB[4:end,5]
         HB2[4:end,4] = HB[4:end,4] - s2 * HB[4:end,5]
     end
