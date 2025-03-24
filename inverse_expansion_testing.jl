@@ -2,7 +2,7 @@ using GraphMatFun
 using LinearAlgebra
 using Symbolics
 using Printf
-include("./equiv_trans_2025/explicit_parameterizations.jl")
+include("common/explicit_parameterizations.jl")
 
 ########################################################
 # Testing P8 inverse expansion in P8
