@@ -2,7 +2,7 @@ using LinearAlgebra
 using GraphMatFun
 using Polynomials
 using Printf
-include("explicit_parameterizations.jl")
+include("../common/explicit_parameterizations.jl")
 
 ########################################################
 # Testing P12

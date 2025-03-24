@@ -2,7 +2,8 @@ using LinearAlgebra
 using GraphMatFun
 using Random
 using Printf
-include("equivalence_transformations2025.jl")
+include("../common/equivalence_transformations2025.jl")
+
 
 ################################################
 # Setting up an initial evaluation scheme
@@ -76,7 +77,7 @@ display(HB)
 # Solving Z equation for alpha
 ##################################################
 # Positive r gives a33 = b33 + 1
-#r = T(1/2)
+r = T(1/2)
 
 # Following beta always has a solution in alpha
 #beta = D[3,3]/2 + r
