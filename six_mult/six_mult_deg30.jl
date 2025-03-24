@@ -11,6 +11,8 @@ include("../common/degopt_tools.jl")
 include("../common/graph_syst.jl")
 include("../common/tikhonov.jl")
 
+m = 6
+
 function init_starting_values!(g,a)
 
     T=eltype(g)

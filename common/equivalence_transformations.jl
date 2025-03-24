@@ -169,13 +169,15 @@ function shift_row3(HA, HB, C, alpha::Number, beta::Number)
     Y = structure_check(HA,HB)
     if abs(Z) > 1e2*eps(real(T))
         println("Invalid transformation, alpha and beta do not satisfy conditions: ")
-        @printf "%.3e" Z
+        #@printf "%.3e" Z
+        println(Z)
         println("returning original scheme")
         return HA, HB, C
     end
     if abs(Y) > 1e2*eps(real(T))
         print("Invalid transformation, HA and HB do not satisfy the structure conditions: ")
-        @printf "%.3e" Y
+        #@printf "%.3e" Y
+        println(Y)
         println("returning original scheme")
         return HA, HB, C
     end
