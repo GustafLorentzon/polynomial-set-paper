@@ -2,7 +2,7 @@ using LinearAlgebra
 using GraphMatFun
 using Random
 using Printf
-include("../common/equivalence_transformations2025.jl")
+include("../common/equivalence_transformations.jl")
 
 
 ################################################

@@ -1,4 +1,4 @@
-include("equivalence_transformations2025.jl")
+include("equivalence_transformations.jl")
 
 function normalize_col1(Ha,Hb,c)
     m=size(Ha,1);
