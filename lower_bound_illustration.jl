@@ -36,7 +36,7 @@ Random.seed!(0);
 #T=BigFloat
 T=BigInt
 setprecision(2000);
-m=5;
+m=7;
 Ha=ones(m,m+1); Ha=triu(Ha,1); Ha=tril(Ha,1)
 Hb=ones(m,m+1); Hb=triu(Hb,1); Hb=tril(Hb,1)
 Ha=Matrix{Any}(Ha); Hb=Matrix{Any}(Hb); 
@@ -119,14 +119,14 @@ termname=Vector{Any}(undef,0);
 # Case 1
 for i=1:m+2
     push!(terms,dc[i])
-    push!(termname,"c$i")
+    push!(termname,"case 1: c$i")
 end
 
 # Case 2
 for i=1:m
     for j=2:i
         push!(terms,dA[i,j]);
-        push!(termname,"a$i$j")        
+        push!(termname,"case 2: a$i$j")        
     end
 end
 
@@ -144,22 +144,23 @@ for i=1:m
         t=dA[i,j]-dB[i,j];
         if (degree.(t)>=0)
             push!(terms,t);
-            push!(termname,"a$i$j-b$i$j")
+            push!(termname,"case 3: a$i$j-b$i$j")
         end      
     end
 end
 
 # Case 4
 
-push!(terms,dA[m,m]-dB[m,m]+dc[m+1] + 2*(dA[m,2]-dB[m,2]))
-push!(termname,"a$m$m-b$m$m+c$(m+1)+2*(a$(m)2-a$(m)2)")
 
 
 
 for i=4:m-1
     push!(terms,dA[i,i]-dB[i,i]+2*dA[i+1,i+1]+2*(dA[i,2]-dB[i,2]))
-    push!(termname,"a$i$i-b$i$i+2*a$(i+1)$(i+1)+2*(a[$i,2]-b[$i,2])")
+    push!(termname,"case 4a: a$i$i-b$i$i+2*a$(i+1)$(i+1)+2*(a[$i,2]-b[$i,2])")
 end
+
+push!(terms,dA[m,m]-dB[m,m]+dc[m+1] + 2*(dA[m,2]-dB[m,2]))
+push!(termname,"case 4b: a$m$m-b$m$m+c$(m+1)+2*(a$(m)2-a$(m)2)")
 
 
 
