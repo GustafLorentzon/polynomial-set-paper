@@ -118,3 +118,66 @@ function latex_print_vals(degopt)
         end
     end
 end
+
+
+
+function polynomial_to_latex(p::Polynomial,v)
+    coeffs_vals = coeffs(p)
+    terms = []
+
+    # Determine degrees
+    degrees = degree(p):-1:0
+    nonzero_terms = [(deg, coeffs_vals[deg + 1]) for deg in degrees if coeffs_vals[deg + 1] != 0]
+
+    print("\\[")
+    print("\\frac{\\partial p}{\\partial $v}=");
+    
+    if length(nonzero_terms) <= 4
+        # Print everything if there are 4 or fewer terms
+        terms_latex = join(["$(c)X^{$d}" for (d, c) in nonzero_terms], " + ")
+        println("\\[ $terms_latex \\]")
+        return
+    end
+
+    # Extract 4 highest-degree terms
+    highest_terms = nonzero_terms[1:4]
+    o_degree = highest_terms[end][1] - 1
+
+    # Format terms
+    for (d, c) in highest_terms
+        sign = c < 0 ? "-" : "+"
+        abs_c = abs(c)
+        term = "$(abs_c)X^{$d}"
+        push!(terms, (sign, term))
+    end
+
+    # Build LaTeX string
+    latex_str = terms[1][2]
+    for (sign, term) in terms[2:end]
+        latex_str *= " $sign $term"
+    end
+    latex_str *= " + \\mathcal{O}(X^{$o_degree})"
+
+    println("$latex_str \\]")
+end
+using Polynomials
+
+function pretty_leading_terms(p::Polynomial)
+    coeffs_vals = coeffs(p)
+    degrees = degree(p):-1:0
+    nonzero_terms = [(deg, coeffs_vals[deg + 1]) for deg in degrees if coeffs_vals[deg + 1] != 0]
+
+    if isempty(nonzero_terms)
+        return "0"
+    end
+
+    if length(nonzero_terms) <= 4
+        return join(["$(c)X^$d" for (d, c) in nonzero_terms], " + ")
+    end
+
+    leading = nonzero_terms[1:4]
+    o_degree = leading[end][1] - 1
+
+    terms = ["$(c)X^$d" for (d, c) in leading]
+    return join(terms, " + ") * " + O(X^$o_degree)"
+end
