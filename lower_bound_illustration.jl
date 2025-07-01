@@ -36,7 +36,7 @@ Random.seed!(0);
 #T=BigFloat
 T=BigInt
 setprecision(2000);
-m=7;
+m=4;
 Ha=ones(m,m+1); Ha=triu(Ha,1); Ha=tril(Ha,1)
 Hb=ones(m,m+1); Hb=triu(Hb,1); Hb=tril(Hb,1)
 Ha=Matrix{Any}(Ha); Hb=Matrix{Any}(Hb); 
@@ -112,7 +112,7 @@ for i=1:m+2
 end
 
 
-degvec=[vec(degree.(dA)); vec(degree.(dA-dB)); vec(degree.(dc))]
+degvec=[vec(degree.(dA)); vec(degree.(dB-dA)); vec(degree.(dc))]
 
 terms=Vector{Any}(undef,0);
 termname=Vector{Any}(undef,0);
@@ -141,10 +141,10 @@ end
 
 for i=1:m
     for j=2:i-1
-        t=dA[i,j]-dB[i,j];
+        t=dB[i,j]-dA[i,j];
         if (degree.(t)>=0)
             push!(terms,t);
-            push!(termname,"case 3: a$i$j-b$i$j")
+            push!(termname,"case 3: b$i$j-a$i$j")
         end      
     end
 end
@@ -154,13 +154,13 @@ end
 
 
 
-for i=4:m-1
-    push!(terms,dA[i,i]-dB[i,i]+2*dA[i+1,i+1]+2*(dA[i,2]-dB[i,2]))
-    push!(termname,"case 4a: a$i$i-b$i$i+2*a$(i+1)$(i+1)+2*(a[$i,2]-b[$i,2])")
+for i=5:m
+    push!(terms, dB[i-1,i-1]-dA[i-1,i-1] + 2*(dB[i-1,2]-dA[i-1,2]) + 2*dA[i,i] )
+    push!(termname,"case 4a: b$(i-1)$(i-1)-a$(i-1)$(i-1)+2*(b$(i-1)2-a$(i-1)2)+2*a$(i)$(i)")
 end
 
-push!(terms,dA[m,m]-dB[m,m]+dc[m+1] + 2*(dA[m,2]-dB[m,2]))
-push!(termname,"case 4b: a$m$m-b$m$m+c$(m+1)+2*(a$(m)2-a$(m)2)")
+push!(terms,dB[m,m]-dA[m,m] + 2*(dB[m,2]-dA[m,2]) + dc[m+1])
+push!(termname,"case 4b: b$m$m-a$m$m+2*(b$(m)2-a$(m)2)+c$(m+1)")
 
 
 
@@ -180,5 +180,9 @@ push!(termname,"case 4b: a$m$m-b$m$m+c$(m+1)+2*(a$(m)2-a$(m)2)")
 #
 @show length(unique(degree.(terms)))
 
+sorted_indices = sortperm(degree.(terms))
 
-display([termname degree.(terms) pretty_leading_terms.(terms)])
+display([termname[sorted_indices] degree.(terms[sorted_indices]) pretty_leading_terms.(terms[sorted_indices])])
+
+println("Number of terms: " * string(length(terms)))
+println("Unique degrees: " * string(length(unique(degree.(terms)))))
