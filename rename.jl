@@ -1,10 +1,10 @@
 function rename(c)
     c_str=String(c)
     new_str=c_str;
-    if (startswith(c_str,"Bb"))
+    if (startswith(c_str,"Ba"))
         n=parse(Int,(c_str[3:end]))-1;
         new_str="a$n";
-    elseif (startswith(c_str,"Ba"))
+    elseif (startswith(c_str,"Bb"))
         n=parse(Int,(c_str[3:end]))-1;
         new_str="b$n";
     elseif (startswith(c_str,"B"))
