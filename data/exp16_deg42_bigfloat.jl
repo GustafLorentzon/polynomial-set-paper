@@ -1,11 +1,11 @@
 using LinearAlgebra
-@inline function exp16_deg42_bigfloat.jl(A)
+@inline function exp16_deg42_bigfloat(A)
     T=promote_type(eltype(A),Complex{BigFloat})
     A_copy=similar(A,T); copyto!(A_copy, A);
-    return exp16_deg42_bigfloat.jl!(A_copy)
+    return exp16_deg42_bigfloat!(A_copy)
 end
 
-@inline function exp16_deg42_bigfloat.jl!(A)
+@inline function exp16_deg42_bigfloat!(A)
     T=promote_type(eltype(A),Complex{BigFloat}) # Make it work for many 'bigger' types (matrices and scalars)
     # max_memslots=10
     n=size(A,1)
