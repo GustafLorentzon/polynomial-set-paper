@@ -6,7 +6,7 @@ Code associated with the paper “The polynomial set associated with a fixed num
 
 - `./common`: Contains shared files used when generating evaluation scheme coefficients.
 
-- `./data`: Stores all precomputed evaluation scheme coefficients.
+- `./data`: Stores all precomputed evaluation scheme coefficients as well as corresponding generated code.
 
 - `./five_mult`: Contains files for generating evaluation schemes that compute degree-20 matrix polynomials using only 5 matrix-matrix multiplications.
 
