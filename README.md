@@ -19,3 +19,5 @@ Code associated with the paper “The polynomial set associated with a fixed num
 - `dimension_verification.jl`: Plots the singular values of the Jacobian in a random point in two different precisions, allowing us to count the number of non-zero singular values, even when the Jacobian is very ill-conditioned.
 
 - `reduction_figure.jl`: Plots the degrees of polynomials corresponding to different reduction structures in the evaluation scheme, see Figure 4.1 in the paper.
+
+- `timing_illustration.jl`: Carries out the timing experiment in Remark 5.4 in the manuscript.
